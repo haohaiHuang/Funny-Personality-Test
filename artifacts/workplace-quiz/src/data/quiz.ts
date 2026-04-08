@@ -9,6 +9,7 @@ export interface PersonalityResult {
   rank: number;
   diagnosis: string;
   shortDiagnosis: string;
+  icon: string;
 }
 
 export const questions: Question[] = [
@@ -90,6 +91,7 @@ export const personalityResults: Record<string, PersonalityResult> = {
   害群之马: {
     title: '害群之马',
     rank: 1,
+    icon: '🐴',
     diagnosis:
       '你的存在本身就是一种信号——要么团队变好，要么你走人。老板怕你，同事防你，但你从不在乎。你是那种开会全程不说话，散会后说一句"我觉得不行"然后全员重做的人。',
     shortDiagnosis: '开会不说话，散会一句话全员重做',
@@ -97,6 +99,7 @@ export const personalityResults: Record<string, PersonalityResult> = {
   甩锅宗师: {
     title: '甩锅宗师',
     rank: 2,
+    icon: '🥷',
     diagnosis:
       '你的人生信条是：这事跟我没关系。这句话你说过无数遍，而且每次都脸不红心不跳。同事集体踩过的坑里，一定有你的脚印；功劳簿上，从来没有你的名字。',
     shortDiagnosis: '功劳簿上没你名字，但锅里一定有你脚印',
@@ -104,6 +107,7 @@ export const personalityResults: Record<string, PersonalityResult> = {
   人形摆烂机: {
     title: '人形摆烂机',
     rank: 3,
+    icon: '🛌',
     diagnosis:
       '你对工作的最高期待就是"别找我"。周一的事周五做，老板催就假装网络不好。你的人生哲学是：能躺着绝不坐着，能周五绝不周四。绩效面谈时你一脸无辜，其实心里早就在想假期去哪玩了。',
     shortDiagnosis: '能躺着绝不坐着，绩效面谈心里已订好假期',
@@ -111,6 +115,7 @@ export const personalityResults: Record<string, PersonalityResult> = {
   汇报表演艺术家: {
     title: '汇报表演艺术家',
     rank: 4,
+    icon: '🎭',
     diagnosis:
       '你不是来干活的，你是来演"在干活"的。开会永远第一个冲进去发言，PPT永远做得比内容还长，老板问进展你就开始临场发挥。你不是没有能力，你的能力全部用在了表演上。',
     shortDiagnosis: 'PPT做得比内容还长，能力全用在表演上',
@@ -118,6 +123,7 @@ export const personalityResults: Record<string, PersonalityResult> = {
   御用背锅人: {
     title: '御用背锅人',
     rank: 5,
+    icon: '🪣',
     diagnosis:
       '每次团队出事，你都是第一个被叫进会议室的。不是因为你技术最差，是因为你最好说话。你默默背着别人的KPI，心态稳得像广场舞大妈，其实内心早就有一万只草泥马在奔腾。',
     shortDiagnosis: '心态稳如广场舞大妈，内心一万只草泥马奔腾',
@@ -125,6 +131,7 @@ export const personalityResults: Record<string, PersonalityResult> = {
   开会幽灵: {
     title: '开会幽灵',
     rank: 6,
+    icon: '👻',
     diagnosis:
       '你的隐身术已经练到出神入化。群消息永远"已读无回复"，开会永远在线但从不发言。你在工位上，但你的灵魂早已下班。你的存在感约等于零，但你的工资照发，这就是你的生存之道。',
     shortDiagnosis: '人在工位灵魂早已下班，存在感为零工资照发',
@@ -132,6 +139,7 @@ export const personalityResults: Record<string, PersonalityResult> = {
   永动打工人: {
     title: '永动打工人',
     rank: 7,
+    icon: '⚙️',
     diagnosis:
       '你不加班谁加班？你不卷谁卷？周末不请自来，早上8点已在工位，晚上10点还在发工作消息。你不是热爱工作，你只是不知道怎么停下来。升职加薪你总是第一个被提名，但你的黑眼圈也是全组最深的。',
     shortDiagnosis: '升职第一名，黑眼圈也是全组最深',
@@ -139,6 +147,7 @@ export const personalityResults: Record<string, PersonalityResult> = {
   人形复读机: {
     title: '人形复读机',
     rank: 8,
+    icon: '🦜',
     diagnosis:
       '老板说的话你原封不动转给全组，不加工、不消化、不判断。老板说往东你就往东，老板说向西你就贴公告说向西要绕路。你是职场传导链上最忠实的一环，也是最没有灵魂的那一环。',
     shortDiagnosis: '老板说什么你传什么，最忠实也最没灵魂',
