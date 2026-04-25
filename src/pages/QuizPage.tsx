@@ -15,13 +15,24 @@ export default function QuizPage({ onComplete }: QuizPageProps) {
 
   const currentQuestion = questions[currentIndex];
 
+  const handleGoBack = () => {
+    if (isAnimating || currentIndex <= 0) return;
+    setDirection(-1);
+    setCurrentIndex(currentIndex - 1);
+    setSelectedKey(answers[currentIndex - 1] ?? null);
+    setIsAnimating(false);
+  };
+
   const handleSelect = (key: 'A' | 'B' | 'C') => {
     if (isAnimating) return;
     setSelectedKey(key);
     setIsAnimating(true);
 
     setTimeout(() => {
-      const newAnswers = [...answers, key];
+      const isEditing = currentIndex < answers.length;
+      const newAnswers = isEditing
+        ? answers.map((a, i) => (i === currentIndex ? key : a))
+        : [...answers, key];
       if (currentIndex + 1 >= questions.length) {
         onComplete(newAnswers);
       } else {
@@ -125,8 +136,21 @@ export default function QuizPage({ onComplete }: QuizPageProps) {
                 );
               })}
             </div>
+
           </motion.div>
         </AnimatePresence>
+
+        {currentIndex > 0 && (
+          <motion.button
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            whileTap={{ scale: 0.97 }}
+            onClick={handleGoBack}
+            className="ml-auto mt-5 text-zinc-500 text-sm underline underline-offset-2 hover:text-zinc-400 transition-colors duration-200"
+          >
+            ← 返回上一题
+          </motion.button>
+        )}
       </div>
 
       <div className="flex justify-center gap-1.5 mt-8 pb-4">

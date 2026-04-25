@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QuizPage UI Mockup v4.1 - 返回上一题</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html { antialiased; }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+    background-color: #000;
+    color: #fafafa;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px;
+  }
+
+  .page-title { text-align: center; margin-bottom: 40px; }
+  .page-title h1 { color: #fff; font-size: 24px; font-weight: 800; margin-bottom: 8px; }
+  .page-title p { color: #71717a; font-size: 14px; }
+
+  .comparison { display: flex; flex-direction: column; gap: 32px; align-items: center; }
+
+  .scenario-label {
+    text-align: center;
+    font-size: 13px;
+    color: #a1a1aa;
+    margin-bottom: 12px;
+    font-weight: 500;
+  }
+
+  .phone-frame {
+    width: 375px;
+    min-height: 680px;
+    background: #000;
+    border-radius: 40px;
+    border: 3px solid #222;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 25px 80px rgba(0,0,0,0.6);
+    padding: 32px 16px;
+    display: flex;
+    flex-direction: column;
+  }
+  .phone-frame.highlight { border-color: #facc15; border-width: 1.5px; }
+
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 32px;
+    padding: 0 8px;
+  }
+  .header-left { color: #52525b; font-size: 14px; font-weight: 500; }
+  .header-right { color: #71717a; font-size: 14px; }
+  .header-right .current { color: #a1a1aa; }
+  .header-right .sep { color: #3f3f46; }
+
+  .question-area { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+
+  .q-label {
+    color: #facc15;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .q-text {
+    color: #fff;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1.4;
+    margin-bottom: 32px;
+  }
+
+  .options { display: flex; flex-direction: column; gap: 12px; }
+  .option {
+    width: 100%;
+    text-align: left;
+    padding: 16px;
+    border-radius: 16px;
+    border: 1px solid #27272a;
+    background: #18181b;
+    color: #e4e4e7;
+    cursor: pointer;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    transition: all 0.2s;
+  }
+  .option:hover { background: #27272a; border-color: #3f3f46; }
+  .option.selected {
+    background: #facc15;
+    border-color: #facc15;
+    color: #000;
+    transform: scale(0.98);
+  }
+  .option-key {
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 900;
+    margin-top: 2px;
+    background: #27272a;
+    color: #facc15;
+  }
+  .option.selected .option-key { background: rgba(0,0,0,0.2); color: #000; }
+  .option-text { font-size: 14px; line-height: 1.6; font-weight: 500; padding-top: 2px; }
+
+  /* ====== v4.1：选项下方居中文字链接 ====== */
+  .back-link-area {
+    display: flex;
+    justify-content: center;
+    margin-top: 16px;
+  }
+  .back-link {
+    color: #71717a;
+    font-size: 13px;
+    font-weight: 500;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-color: #71717a;
+    cursor: pointer;
+    transition: color 0.2s;
+    background: none;
+    border: none;
+    font-family: inherit;
+    padding: 4px 0;
+  }
+  .back-link:hover { color: #a1a1aa; text-decoration-color: #a1a1aa; }
+
+  .bottom-area { padding-bottom: 16px; margin-top: auto; }
+  .progress-dots { display: flex; justify-content: center; gap: 6px; }
+  .dot { height: 4px; border-radius: 999px; transition: all 0.3s; }
+  .dot.done { width: 24px; background: #facc15; }
+  .dot.current { width: 24px; background: rgba(250,204,21,0.6); }
+  .dot.pending { width: 12px; background: #27272a; }
+
+  .annotation { text-align: center; margin-top: 8px; font-size: 12px; }
+  .footer-note { text-align: center; margin-top: 48px; color: #52525b; font-size: 13px; line-height: 1.8; }
+</style>
+</head>
+<body>
+
+<div class="page-title">
+  <h1>QuizPage UI 设计稿 v4.1</h1>
+  <p>"返回上一题" — 选项下方居中 · 浅灰色下划线文字</p>
+</div>
+
+<div class="comparison">
+
+  <!-- 场景1：第1题 -->
+  <div>
+    <div class="scenario-label">场景 1：第 1 题（不显示返回链接）</div>
+    <div class="phone-frame">
+      <div class="header">
+        <span class="header-left">职场毁型人格测试</span>
+        <span class="header-right"><span class="current">1</span> <span class="sep">/</span> 8</span>
+      </div>
+      <div class="question-area">
+        <div class="q-label">Q1</div>
+        <div class="q-text">周一早上九点，你打开电脑看到 47 条未读消息...</div>
+        <div class="options">
+          <div class="option selected"><div class="option-key">A</div><div class="option-text">逐条回复，这是职场人的基本素养</div></div>
+          <div class="option"><div class="option-key">B</div><div class="option-text">先看有哪些是@我的再说</div></div>
+          <div class="option"><div class="option-key">C</div><div class="option-text">关掉消息提醒，假装没看见</div></div>
+        </div>
+      </div>
+      <div class="bottom-area">
+        <div class="progress-dots">
+          <div class="dot current"></div>
+          <div class="dot pending"></div>
+          <div class="dot pending"></div>
+          <div class="dot pending"></div>
+          <div class="dot pending"></div>
+          <div class="dot pending"></div>
+          <div class="dot pending"></div>
+          <div class="dot pending"></div>
+        </div>
+      </div>
+    </div>
+    <div class="annotation" style="color:#3f3f46;">↑ 选项下方无链接</div>
+  </div>
+
+  <!-- 场景2：第2题 -->
+  <div>
+    <div class="scenario-label">场景 2：第 2 题（选项下方居中显示链接）</div>
+    <div class="phone-frame highlight">
+      <div class="header">
+        <span class="header-left">职场毁型人格测试</span>
+        <span class="header-right"><span class="current">2</span> <span class="sep">/</span> 8</span>
+      </div>
+      <div class="question-area">
+        <div class="q-label">Q2</div>
+        <div class="q-text">同事说"这事儿你看着办吧"，你的第一反应是...</div>
+        <div class="options">
+          <div class="option"><div class="option-key">A</div><div class="option-text">开干！终于自由发挥的机会</div></div>
+          <div class="option"><div class="option-key">B</div><div class="option-text">先拖一拖，看领导怎么说</div></div>
+          <div class="option"><div class="option-key">C</div><div class="option-text">转发给实习生，培养年轻人</div></div>
+        </div>
+        <div class="back-link-area">
+          <button class="back-link">← 返回上一题</button>
+        </div>
+      </div>
+      <div class="bottom-area">
+        <div class="progress-dots">
+          <div class="dot done"></div>
+          <div class="dot current"></div>
+          <div class="dot pending"></div>
+          <div class="dot pending"></div>
+          <div class="dot pending"></div>
+          <div class="dot pending"></div>
+          <div class="dot pending"></div>
+          <div class="dot pending"></div>
+        </div>
+      </div>
+    </div>
+    <div class="annotation" style="color:#facc15;">↑ 居中 · 浅灰色 #71717a · 与上方「2 / 8」颜色一致</div>
+  </div>
+
+  <!-- 场景3：第5题 -->
+  <div>
+    <div class="scenario-label">场景 3：第 5 题（进度过半）</div>
+    <div class="phone-frame">
+      <div class="header">
+        <span class="header-left">职场毁型人格测试</span>
+        <span class="header-right"><span class="current">5</span> <span class="sep">/</span> 8</span>
+      </div>
+      <div class="question-area">
+        <div class="q-label">Q5</div>
+        <div class="q-text">年终总结 PPT 你一般什么时候开始做...</div>
+        <div class="options">
+          <div class="option"><div class="option-key">A</div><div class="option-text">提前两周，数据图表一应俱全</div></div>
+          <div class="option"><div class="option-key">B</div><div class="option-text">提前两天，模板套一套就行</div></div>
+          <div class="option"><div class="option-key">C</div><div class="option-text">前一天晚上通宵赶出来</div></div>
+        </div>
+        <div class="back-link-area">
+          <button class="back-link">← 返回上一题</button>
+        </div>
+      </div>
+      <div class="bottom-area">
+        <div class="progress-dots">
+          <div class="dot done"></div>
+          <div class="dot done"></div>
+          <div class="dot done"></div>
+          <div class="dot done"></div>
+          <div class="dot current"></div>
+          <div class="dot pending"></div>
+          <div class="dot pending"></div>
+          <div class="dot pending"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 场景4：回退到已答题 -->
+  <div>
+    <div class="scenario-label">场景 4：回退到 Q3（自动回显之前选的 B）</div>
+    <div class="phone-frame">
+      <div class="header">
+        <span class="header-left">职场毁型人格测试</span>
+        <span class="header-right"><span class="current">3</span> <span class="sep">/</span> 8</span>
+      </div>
+      <div class="question-area">
+        <div class="q-label">Q3</div>
+        <div class="q-text">周五下午五点半，领导突然说"有个小需求"...</div>
+        <div class="options">
+          <div class="option"><div class="option-key">A</div><div class="option-text">当场开干，反正也没别的事</div></div>
+          <div class="option selected"><div class="option-key">B</div><div class="option-text">内心崩溃但微笑说"好的领导"</div></div>
+          <div class="option"><div class="option-key">C</div><div class="option-text">假装没看到消息，周一再说</div></div>
+        </div>
+        <div class="back-link-area">
+          <button class="back-link">← 返回上一题</button>
+        </div>
+      </div>
+      <div class="bottom-area">
+        <div class="progress-dots">
+          <div class="dot done"></div>
+          <div class="dot done"></div>
+          <div class="dot current"></div>
+          <div class="dot done"></div>
+          <div class="dot done"></div>
+          <div class="dot pending"></div>
+          <div class="dot pending"></div>
+          <div class="dot pending"></div>
+        </div>
+      </div>
+    </div>
+    <div class="annotation" style="color:#facc15;">↑ 选项 B 自动高亮（回显之前的答案）</div>
+  </div>
+
+</div>
+
+<div class="footer-note">
+  <p>位置：选项卡片下方，屏幕水平居中</p>
+  <p>颜色：`#71717a`（与上方进度数字「X / 8」的 text-zinc-500 一致）</p>
+  <p>样式：浅灰色文字 + 下划线，hover 变亮为 `#a1a1aa`</p>
+  <p>第一题时隐藏 | 底部进度条保持纯居中</p>
+</div>
+
+</body>
+</html>

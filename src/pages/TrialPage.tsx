@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { PersonalityResult } from '../data/quiz';
 
@@ -10,25 +10,8 @@ interface TrialPageProps {
 export default function TrialPage({ result, onComplete }: TrialPageProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState(1);
-  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
-  const autoPlayRef = useRef<NodeJS.Timeout | null>(null);
 
   const verdicts = result.trialVerdicts;
-
-  useEffect(() => {
-    if (isAutoPlaying && currentIndex < verdicts.length - 1) {
-      autoPlayRef.current = setTimeout(() => {
-        setDirection(1);
-        setCurrentIndex(prev => prev + 1);
-      }, 5000);
-    }
-
-    return () => {
-      if (autoPlayRef.current) {
-        clearTimeout(autoPlayRef.current);
-      }
-    };
-  }, [currentIndex, isAutoPlaying, verdicts.length]);
 
   const handleNext = () => {
     if (currentIndex < verdicts.length - 1) {
